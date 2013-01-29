@@ -57,6 +57,7 @@
          <groupaction menu="Re-Scan table" default="false" execute="scanTable" />
          <groupaction menu="Re-Download all card automations" default="false" execute="fetchCardScripts" />
          <groupaction menu="Debug" default="false" shortcut="Ctrl+Shift+D" execute="TrialError" /> 
+         <groupaction menu="Set Debug Verbosity" default="false" execute="ask_for_debugVerbosity"/>
       </groupactions>
       <cardaction menu="Debug Card" default="false" execute="DebugCard" /> 
       <groupactions menu="Turns/Clicks...">

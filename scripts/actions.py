@@ -2189,3 +2189,30 @@ def moveXtopCardtoBottomStack(group):
    for c in group.top(count): c.moveToBottom(group)
    notify("{} moves the top {} cards from their {} to the bottom of {}.".format(me, count,pileName(group),pileName(group)))
 
+#------------------------------------------------------------------------------
+# Debugging Actions
+#------------------------------------------------------------------------------
+
+def ask_for_debugVerbosity(*args):
+    """
+    Ask the current player for the desired debug level.
+    
+    *args is included because any function called from the right-click
+    menu is passed group, x and y arguments.
+     
+    OCTGN's askInteger() function requires a positive int, so we ask for an
+    int between 0 and 6 then subtract 1.  If the selected value is outside
+    of that range, we reopen the dialog box and ask again.
+    """
+    text = "Please set a debug level between 0 and 6. "\
+           "Note that the internal debug value will be 1 less than your "\
+           "selection (i.e. entering 4 will give you 3, etc.)\n"\
+           "----------------------------------------\n"\
+           "0: No debug output\n"\
+           "1-6: Increasing levels of debug output\n"\
+           "----------------------------------------"
+    choice = askInteger(text, 0)
+    if 0 <= choice <= 6:
+        set_debugVerbosity(choice-1)
+    else:
+        ask_for_debugVerbosity()

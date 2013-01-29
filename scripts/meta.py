@@ -736,3 +736,7 @@ def ShowPosC(card, x=0,y=0):
       x,y = card.position
       notify('card x={}, y={}'.format(x,y))      
       
+def set_debugVerbosity(new_verbosity, me=me):
+    global debugVerbosity
+    debugVerbosity = new_verbosity
+    notify(">>> {} has set debugVerbosity to {}.".format(me.name, debugVerbosity))
