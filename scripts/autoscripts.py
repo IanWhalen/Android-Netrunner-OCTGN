@@ -26,6 +26,7 @@
 ###=================================================================================================================###
 
 import re
+from collections import Counter
 
 secretCred = None # Used to allow the player to spend credits in secret for some card abilities (e.g. Snowflake)
 failedRequirement = True # A Global boolean that we set in case an Autoscript cost cannot be paid, so that we know to abort the rest of the script.
@@ -166,6 +167,7 @@ def useAbility(card, x = 0, y = 0): # The start of autoscript activation.
    AutoscriptsList = [] # An empty list which we'll put the AutoActions to execute.
    storeProperties(card) # Just in case
    failedRequirement = False # We set it to false when we start a new autoscript.
+   announcements = Counter()
    if debugVerbosity >= 5: notify("+++ Checking if Tracing card...")
    if (card._id in Stored_Type and fetchProperty(card, 'Type') == 'Tracing') or card.model == 'eb7e719e-007b-4fab-973c-3fe228c6ce20': # If the player double clicks on the Tracing card...
       if debugVerbosity >= 5: notify("+++ Confirmed tacting card. Checking Status...")
@@ -418,8 +420,14 @@ def useAbility(card, x = 0, y = 0): # The start of autoscript activation.
             executePlayScripts(card,'trash')
             card.moveTo(card.owner.piles['Heap/Archives(Face-up)'])
       notify("{}.".format(announceText)) # Finally announce what the player just did by using the concatenated string.
+      announcements.update([announceText])
       chkNoisy(card)
       gatheredCardList = False  # We set this variable to False, so that reduceCost() calls from other functions can start scanning the table again.
+
+   for unique_text, count in announcements.most_common():      
+      if count > 1: notify("({}x) {}.".format(count, unique_text))
+      else: notify("{}.".format(unique_text))
+
 
 #------------------------------------------------------------------------------
 # Other Player trigger
